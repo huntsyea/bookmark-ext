@@ -29,3 +29,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     injectedTabs.delete(tabId);
   }
 });
+
+// New: Handle messages from content script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "showModal") {
+    chrome.tabs.sendMessage(sender.tab.id, { action: "showModal" });
+  }
+});
